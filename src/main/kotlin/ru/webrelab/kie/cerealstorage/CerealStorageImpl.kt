@@ -5,10 +5,6 @@ class CerealStorageImpl(
     override val storageCapacity: Float
 ) : CerealStorage {
 
-    /**
-     * Блок инициализации класса.
-     * Выполняется сразу при создании объекта
-     */
     init {
         require(containerCapacity >= 0) {
             "Ёмкость контейнера не может быть отрицательной"
@@ -19,5 +15,28 @@ class CerealStorageImpl(
     }
 
     private val storage = mutableMapOf<Cereal, Float>()
+    override fun addCereal(cereal: Cereal, amount: Float): Float {
+       return 0f
+    }
+
+    override fun getCereal(cereal: Cereal, amount: Float): Float {
+        return 0f
+    }
+
+    override fun removeContainer(cereal: Cereal): Boolean {
+      return false
+    }
+
+    override fun getAmount(cereal: Cereal): Float {
+        return 0f
+    }
+
+    override fun getSpace(cereal: Cereal): Float {
+        return 0f
+    }
+
+    override fun toString(): String {
+      return ""
+    }
 
 }
