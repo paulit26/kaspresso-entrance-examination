@@ -96,7 +96,6 @@ class CerealStorageImplTest {
         assertEquals(6.3f, storage.getSpace(Cereal.RICE), 0.1f)
     }
 
-
     // removeContainer()
     // Удаляем контейнер которого нет
     @Test
@@ -123,7 +122,6 @@ class CerealStorageImplTest {
     }
 
     // toString()
-
     // Делаем набор контейнеров и смотрим что получается в хранилище
     @Test
     fun toString_1() {
@@ -138,6 +136,4 @@ class CerealStorageImplTest {
         assertTrue(text.contains("8.0"))
         assertTrue(text.contains("3.19"))
     }
-
-
 }
