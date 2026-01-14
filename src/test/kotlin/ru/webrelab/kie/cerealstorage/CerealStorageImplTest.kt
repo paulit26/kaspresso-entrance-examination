@@ -122,5 +122,22 @@ class CerealStorageImplTest {
         assertThrows<IllegalStateException> { storage.getSpace(Cereal.RICE) }
     }
 
+    // toString()
+
+    // Делаем набор контейнеров и смотрим что получается в хранилище
+    @Test
+    fun toString_1() {
+        storage.addCereal(Cereal.RICE, 4.2f)
+        storage.addCereal(Cereal.BULGUR, 6.8f)
+        storage.addCereal(Cereal.BULGUR, 1.2f)
+        storage.getCereal(Cereal.RICE,1.0f)
+        val text = storage.toString()
+        assertTrue(text.contains("11"))
+        assertTrue(text.contains("RICE"))
+        assertTrue(text.contains("BULGUR"))
+        assertTrue(text.contains("8.0"))
+        assertTrue(text.contains("3.19"))
+    }
+
 
 }

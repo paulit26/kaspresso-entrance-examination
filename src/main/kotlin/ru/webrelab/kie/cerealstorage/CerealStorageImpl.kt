@@ -1,5 +1,14 @@
 package ru.webrelab.kie.cerealstorage
 
+fun main() {
+    val storage = CerealStorageImpl(10f, 20f)
+    storage.addCereal(Cereal.RICE, 4.2f)
+    storage.addCereal(Cereal.BULGUR, 6.8f)
+    storage.addCereal(Cereal.BULGUR, 1.2f)
+    storage.getCereal(Cereal.RICE,1.0f)
+    print(storage)
+}
+
 class CerealStorageImpl(
     override val containerCapacity: Float,
     override val storageCapacity: Float
