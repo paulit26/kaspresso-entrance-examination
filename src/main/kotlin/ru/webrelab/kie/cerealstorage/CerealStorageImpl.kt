@@ -43,7 +43,14 @@ class CerealStorageImpl(
     }
 
     override fun getCereal(cereal: Cereal, amount: Float): Float {
-        return 0f
+        when {
+            amount <= 0 -> throw IllegalStateException("")
+            amount == 0f -> return 0f
+        }
+        val current = storage[cereal] ?: return 0f
+        val taken = minOf(amount, current)
+        storage[cereal] = current - taken
+        return taken
     }
 
     override fun removeContainer(cereal: Cereal): Boolean {
@@ -53,7 +60,8 @@ class CerealStorageImpl(
     override fun getAmount(cereal: Cereal) = storage[cereal] ?: 0f
 
     override fun getSpace(cereal: Cereal): Float {
-        return 0f
+        val current = storage[cereal] ?: throw IllegalStateException("Нет контейнера для крупы: $cereal")
+        return containerCapacity - current
     }
 
     override fun toString(): String {

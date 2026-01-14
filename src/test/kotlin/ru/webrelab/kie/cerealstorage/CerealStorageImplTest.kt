@@ -59,4 +59,43 @@ class CerealStorageImplTest {
         assertEquals(0f, remain, 0.1f)
         assertEquals(9.3f, storage.getAmount(Cereal.BULGUR), 0.1f)
     }
+
+    // Добавляем новый тип крупы, когда не хватает места на него
+    @Test
+    fun addCereal_5() {
+        storage.addCereal(Cereal.RICE, 10f)
+        storage.addCereal(Cereal.BUCKWHEAT, 10f)
+        assertThrows<IllegalStateException> {
+            storage.addCereal(Cereal.BULGUR, 1f)
+        }
+    }
+
+    // getSpace()
+    // Если нет контейнера для крупы
+    @Test
+    fun getSpace_1() {
+        assertThrows<IllegalStateException> {
+            storage.getSpace(Cereal.RICE)
+        }
+    }
+
+    // Должен вернуть полную емкость, если создаем новый пустой контейнер для крупы
+    @Test
+    fun getSpace_2() {
+        // создаём контейнер
+        storage.addCereal(Cereal.RICE, 3f)
+        // опустошаем его полностью
+        storage.getCereal(Cereal.RICE, 3f)
+        assertEquals(10f, storage.getSpace(Cereal.RICE), 0.1f)
+    }
+
+    // Частичное заполнение емкости
+    @Test
+    fun getSpace_3() {
+        storage.addCereal(Cereal.RICE, 3.7f)
+        assertEquals(6.3f, storage.getSpace(Cereal.RICE), 0.1f)
+    }
+
+
+
 }
