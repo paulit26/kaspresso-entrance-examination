@@ -15,6 +15,8 @@ class CerealStorageImpl(
     }
 
     private val storage = mutableMapOf<Cereal, Float>()
+    private val total: Float
+        get() = storage.values.sum()
 
     override fun addCereal(cereal: Cereal, amount: Float): Float {
         when {
@@ -54,7 +56,15 @@ class CerealStorageImpl(
     }
 
     override fun removeContainer(cereal: Cereal): Boolean {
-      return false
+        val amount = storage[cereal] ?: return false
+        return when {
+            amount == 0f -> {
+                storage.remove(cereal)
+                true
+            }
+
+            else -> false
+        }
     }
 
     override fun getAmount(cereal: Cereal) = storage[cereal] ?: 0f
@@ -65,7 +75,15 @@ class CerealStorageImpl(
     }
 
     override fun toString(): String {
-      return ""
+        val lines = storage.map { (cereal, amount) -> "${cereal.name}: $amount / $containerCapacity" }.sorted()
+        return buildString {
+            append("CerealStorage: $total / $storageCapacity\n")
+            if (lines.isNotEmpty()) {
+                append(lines.joinToString("\n"))
+            } else {
+                append(" (empty)")
+            }
+        }
     }
 
 }

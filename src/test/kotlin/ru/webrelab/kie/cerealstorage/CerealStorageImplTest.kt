@@ -97,5 +97,30 @@ class CerealStorageImplTest {
     }
 
 
+    // removeContainer()
+    // Удаляем контейнер которого нет
+    @Test
+    fun removeContainer_1() {
+        assertFalse(storage.removeContainer(Cereal.RICE))
+    }
+
+    // Попытка удалить контейнер, который не пустой
+    @Test
+    fun removeContainer_2() {
+        storage.addCereal(Cereal.RICE, 0.1f)
+        assertFalse(storage.removeContainer(Cereal.RICE))
+        assertEquals(0.1f, storage.getAmount(Cereal.BUCKWHEAT), 0.1f)
+    }
+
+    // Делаем контейнер пустым и удаляем его
+    @Test
+    fun removeContainer_3() {
+        storage.addCereal(Cereal.RICE, 1f)
+        storage.getCereal(Cereal.RICE, 1f)
+        assertTrue(storage.removeContainer(Cereal.RICE))
+        assertEquals(0f, storage.getAmount(Cereal.RICE))
+        assertThrows<IllegalStateException> { storage.getSpace(Cereal.RICE) }
+    }
+
 
 }
