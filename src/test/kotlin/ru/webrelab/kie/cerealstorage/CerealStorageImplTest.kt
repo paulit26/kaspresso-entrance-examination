@@ -136,4 +136,24 @@ class CerealStorageImplTest {
         assertTrue(text.contains("8.0"))
         assertTrue(text.contains("3.19"))
     }
+
+    // Нельзя добавить третью банку при storageCapacity=22 и containerCapacity=10
+    @Test
+    fun add_ext_container1() {
+        val storage = CerealStorageImpl(10f, 22f)
+        storage.addCereal(Cereal.RICE, 1f)
+        storage.addCereal(Cereal.BUCKWHEAT, 1f)
+        assertThrows<IllegalStateException> {
+            storage.addCereal(Cereal.BULGUR, 1f)
+        }
+    }
+
+    // Можно добавить вторую банку когда осталось ровно на неё`
+    @Test
+    fun add_ext_container2() {
+        val storage = CerealStorageImpl(10f, 22f)
+        storage.addCereal(Cereal.RICE, 1f)
+        val rem = storage.addCereal(Cereal.BULGUR, 10f)
+        assertEquals(0f, rem)
+    }
 }

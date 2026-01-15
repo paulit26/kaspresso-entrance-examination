@@ -1,6 +1,29 @@
 package ru.webrelab.kie.cerealstorage
 
+fun main5() {
+    val storage = CerealStorageImpl(5f, 22f)
+    val res = storage.addCereal(Cereal.RICE, 0.1f)
+    storage.addCereal(Cereal.RICE, 100f)
+    println(storage.getSpace(Cereal.RICE))
+}
+fun main4() {
+    val storage = CerealStorageImpl(5f, 22f)
+    val res = storage.addCereal(Cereal.RICE, 7f)
+    println(storage.getSpace(Cereal.RICE))
+    storage.getCereal(Cereal.RICE,1f)
+    println(storage.getSpace(Cereal.RICE))
+}
 fun main() {
+    //                              банки                  шкаф
+    val storage = CerealStorageImpl(5f, 22f)
+    storage.addCereal(Cereal.RICE, 10f)
+    storage.addCereal(Cereal.BUCKWHEAT, 10f)
+    storage.addCereal(Cereal.BULGUR, 1f)
+    storage.addCereal(Cereal.MILLET, 1f)
+    storage.addCereal(Cereal.PEAS, 1f)
+}
+
+fun main6() {
     val storage = CerealStorageImpl(10f, 20f)
     storage.addCereal(Cereal.RICE, 4.2f)
     storage.addCereal(Cereal.BULGUR, 6.8f)
@@ -41,11 +64,10 @@ class CerealStorageImpl(
                 amount - canAdd
             }
             else -> {
-                val currentsum = storage.values.sum()
-                if (currentsum + containerCapacity > storageCapacity) {
-                    throw IllegalStateException("Нет места для нового контейнера в хранилище!")
+                val maxContainers = (storageCapacity/containerCapacity).toInt()
+                if (storage.size >= maxContainers) {
+                    throw IllegalStateException("Нет места для нового контейнера!")
                 }
-                // Добавляем сколько влезет в новый контейнер
                 val canAdd = minOf(amount, containerCapacity)
                 storage[cereal] = canAdd
                 amount - canAdd
@@ -55,7 +77,7 @@ class CerealStorageImpl(
 
     override fun getCereal(cereal: Cereal, amount: Float): Float {
         when {
-            amount <= 0 -> throw IllegalStateException("")
+            amount < 0 -> throw IllegalStateException("")
             amount == 0f -> return 0f
         }
         val current = storage[cereal] ?: return 0f
@@ -84,7 +106,7 @@ class CerealStorageImpl(
     }
 
     override fun toString(): String {
-        val lines = storage.map { (cereal, amount) -> "${cereal.name}: $amount / $containerCapacity" }.sorted()
+        val lines = storage.map { (cereal, amount) -> "${cereal.name}: $amount/$containerCapacity" }.sorted()
         return buildString {
             append("CerealStorage: $total / $storageCapacity\n")
             if (lines.isNotEmpty()) {
